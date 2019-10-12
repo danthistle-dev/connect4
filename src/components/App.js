@@ -13,6 +13,10 @@ class App extends React.Component {
     this.setState({ name: e.target.value });
   }
 
+  setName = name => {
+    this.setState({ name });
+  }
+
   createGame = () => {
     var xhr = new XMLHttpRequest();
     xhr.addEventListener('load', () => {
@@ -20,7 +24,7 @@ class App extends React.Component {
     });
     xhr.open('POST', 'http://localhost:4000/api/creategame');
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({ name: this.state.name, board: Game.initBoard(), messages: [], currentColour: 'red' }));
+    xhr.send(JSON.stringify({ name: this.state.name, board: Game.initBoard() }));
   }
 
   render() {
@@ -45,6 +49,7 @@ class App extends React.Component {
               {...routeProps} 
               name={this.state.name}
               gameId={this.state.gameId}
+              setName={this.setName}
             /> 
           )}
         />

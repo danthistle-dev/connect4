@@ -32,57 +32,30 @@ class Game {
     }
 
     board[x][nextY] = colour;
-
-    return board;
-
-  }
-
-  /* 
-    if (this.isWinner(parseInt(x), nextY)) {
-      console.log(`${colour} wins!`);
-      this.clearBoard();
+    
+    if (this.isWinner(parseInt(x), nextY, board, colour)) {
       return true;
     }
-
+    
     this.numTurns += 1;
-
+    
     if(this.numTurns >= this.height * this.width) {
-      console.log('It\'s a tie!');
-      this.clearBoard();
-      return true;				
+      return ('Tie');				
     }
-  */
-
-  clearBoard() {
-    Array.prototype.forEach.call(document.querySelectorAll('circle'), function(piece) {
-      piece.setAttribute('class', 'free');
-    });
-
-    this.gameBoard = {};
-
-    for(var x = 0; x <= this.height; x++) {			
-      this.gameBoard[x] = {};    
-      for(var y = 0; y <= this.width; y++) {
-        this.gameBoard[x][y] = 'free';
-      }
-    }
-
-    this.numTurns = 0;
-			
-		return this.gameBoard;
+    return board;
   }
 
-  isWinner (currentX, currentY) {
-    return this.checkDirection(currentX, currentY, 'vertical') ||
-           this.checkDirection(currentX, currentY, 'diagonal') ||
-           this.checkDirection(currentX, currentY, 'horizontal');
+  isWinner (currentX, currentY, board, colour) {
+    return this.checkDirection(board, colour, currentX, currentY, 'vertical') ||
+           this.checkDirection(board, colour, currentX, currentY, 'diagonal') ||
+           this.checkDirection(board, colour, currentX, currentY, 'horizontal');
   }
 
-  isBounds (x, y) {
-    return (this.gameBoard.hasOwnProperty(x) && typeof this.gameBoard[x][y] !== 'undefined');
+  isBounds (board, x, y) {
+    return (board.hasOwnProperty(x) && typeof board[x][y] !== 'undefined');
   }
 
-  checkDirection (currentX, currentY, direction) {
+  checkDirection (board, colour, currentX, currentY, direction) {
     var chainLength, directions;
 
     directions = {
@@ -101,8 +74,8 @@ class Game {
 
     directions[direction].forEach(coords => {
       var i = 1;
-      while (this.isBounds(currentX + (coords[0] * i), currentY + (coords[1] * i)) &&
-             this.gameBoard[currentX + (coords[0] * i)][currentY + (coords[1] * i)] === this.currentPlayer) {
+      while (this.isBounds(board, currentX + (coords[0] * i), currentY + (coords[1] * i)) &&
+             board[currentX + (coords[0] * i)][currentY + (coords[1] * i)] === colour) {
                chainLength++;
                i++
              }

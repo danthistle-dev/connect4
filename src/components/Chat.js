@@ -8,7 +8,7 @@ class Chat extends React.Component {
   render() {
     return(
       <div>
-        <div className="ui segment" style={{ height: '71vh', overflowY: 'scroll' }}>
+        <div className="ui segment" style={{ height: '58vh', overflowY: 'scroll' }}>
           <MessageList messages={this.props.messages}/>
         </div>
         <div>
@@ -16,10 +16,14 @@ class Chat extends React.Component {
             className="ui form" 
             onSubmit={e => {
               e.preventDefault();
-              this.props.socket.emit('chat message', { 
-                msg: this.state.message, 
-                auth: this.props.name
-              });
+              if (this.state.message.startsWith('/')) {
+                this.props.chatCommands(this.state.message);
+              } else {
+                this.props.socket.emit('chat message', { 
+                  msg: this.state.message, 
+                  auth: this.props.name
+                });
+              }
               this.setState({ message: '' });
             }}
           >

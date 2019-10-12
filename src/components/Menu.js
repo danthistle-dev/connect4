@@ -26,7 +26,7 @@ const titleStyles = {
   fontSize: '72px', 
   fontFamily: "'Lobster Two', cursive",
   fontStyle: 'italic',
-  color: '#F9A78E'
+  color: '#ff5f2e'
 }
 
 const Menu = ({ onNameChange, name, gameId, createGame }) => {

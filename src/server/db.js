@@ -24,7 +24,7 @@ exports.createGame = function (req, res) {
   });
 };
 
-exports.makeMove = function (board, gameId) {
+exports.saveBoard = function (board, gameId) {
   client.connect(function(err) {
     assert.equal(null, err);
     const db = client.db(dbName);
