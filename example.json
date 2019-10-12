@@ -1,0 +1,18 @@
+{
+  "move" : {
+    "player" : "red",
+    "column" : "3"
+  },
+  "game-state" : {
+    "board" : {
+      "col0" : "free, free, free, free, yellow, yellow",
+      "col1" : "free, free, free, free, yellow, red",
+      "col2" : "free, free, free, free, yellow, red",
+      "col3" : "free, free, free, free, red, yellow",
+      "col4" : "free, free, free, red, red, yellow",
+      "col5" : "free, free, red, yellow, red, red",
+      "col6" : "free, free, free, free, free, free"
+    },
+    "win" : "true"
+  }
+}
