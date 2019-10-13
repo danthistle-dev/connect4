@@ -28,7 +28,7 @@ class Chat extends React.Component {
             }}
           >
             <div className="field">
-              <div className="ui fluid action input">
+              <div className="ui fluid action input" data-tooltip="/help for chat commands" data-position="bottom center">
                 <input 
                   type="text"
                   value={this.state.message}

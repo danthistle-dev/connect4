@@ -58,7 +58,7 @@ class Room extends React.Component {
       if (arr[1] === 'red' || arr[1] === 'yellow') {
         this.setState({ player: arr[1] })
       }
-    } else if (arr[0] === '/commands') {
+    } else if (arr[0] === '/help') {
       alert('Chat commands: /setname, /setplayer');
     } else {
       alert('Unknown chat command. Type /commands for a list of chat commands.');
@@ -76,7 +76,7 @@ class Room extends React.Component {
   }
 
   render() {
-    const { open, win } = this.state;
+    const { open, win, player, currentPlayer } = this.state;
     return(
       <div className="ui container" style={{ marginTop: '50px' }}>
         <h1 style={this.modalStyles}>Connect 4</h1>
@@ -86,7 +86,7 @@ class Room extends React.Component {
           data-tooltip="Send the URL to a friend so they can join the game!" 
           data-position="top center"
         > 
-          You are {this.state.player}. It is {this.state.currentPlayer}'s turn.
+          {player === 'red' || player === 'yellow' ? `You are ${player}. It's ${currentPlayer}'s turn.` : `You are spectating. It's ${currentPlayer}'s turn.`}
         </div>
         <div className="ui grid">       
           <Board 
@@ -97,7 +97,7 @@ class Room extends React.Component {
           />          
           <div className="five wide column" style={{ height: '67vh', backgroundColor: 'darkgrey' }}>
             <Chat 
-              name={this.props.name || 'Gamer'} 
+              name={this.props.name || this.state.player} 
               socket={this.state.socket}
               messages={this.state.messages}
               chatCommands={this.chatCommands}
