@@ -17,11 +17,13 @@ class Room extends React.Component {
     win: ''
   }
 
+  // Sets the route to the unique game id
   componentWillMount = () => {
     const { params: { gameId } } = this.props.match;
     this.setState({ gameId });
   }
 
+  // Initiates the game board and messeges, assigns player colour.
   componentDidMount = () => {    
     this.getBoardState();
     this.state.socket.on('player colour', player => this.setState({ player }))
@@ -29,10 +31,12 @@ class Room extends React.Component {
     this.state.socket.on('chat message', msg => this.setState({ messages: msg }));
   }
 
+  // Closes socket 
   componentWillUnmount = () => {
     this.state.socket.close();
   }
 
+  // Sends move to the server along with the player who made it.
   sendMove = col => {
     if (this.state.player === 'red' || this.state.player === 'yellow') {
       this.state.socket.emit('make move', { col, player: this.state.player });
@@ -41,15 +45,16 @@ class Room extends React.Component {
     this.state.socket.on('current player', currentPlayer => this.setState({ currentPlayer }));
     this.state.socket.on('check win', win => {
       this.setState({ win, open: true });
-      console.log(this.state.win)
     });
   }
 
+  // Sends game id to the server and receives the current board in return.
   getBoardState = () => {
     this.state.socket.emit('get board', this.state.gameId );
     this.state.socket.on('get board', board => this.setState({ board }));
   };
 
+  // Reads in and performs chat commands.
   chatCommands = cmd => {
     var arr = cmd.split(' ');
     if (arr[0] === '/setname') {
@@ -65,6 +70,7 @@ class Room extends React.Component {
     }
   }
 
+  // Closes modal.
   close = () => this.setState({ open: false });
 
   modalStyles = {

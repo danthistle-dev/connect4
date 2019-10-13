@@ -3,18 +3,19 @@ import '../style.css';
 
 class Board extends React.Component {
 
-  state = {turn: true}
-
+  // Renders initial board and attaches event listeners to the columns.
   componentDidMount() {
     this.createBoard(this.props.board);
     this.createEventListeners();
   }
 
+  // Rerenders the board when the board changes.
   componentDidUpdate() {
     this.createBoard(this.props.board);
     this.createEventListeners();
   }
 
+  // Creates elements and svg's that represent the board.
   createBoard(board) {  
     const width = 7;
     const height = 6;
@@ -51,12 +52,12 @@ class Board extends React.Component {
     }    
   }
 
+  // Attaches event listeners to the columns. Columns run sendMove() when clicked.
   createEventListeners = () => {
     var columns = document.querySelectorAll('.game-col');
 
     Array.prototype.forEach.call(columns, col => {
       col.addEventListener('click', () => {
-        console.log('clicked')
         this.props.sendMove(col.getAttribute('data-x'));
       });
     });

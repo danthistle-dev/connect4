@@ -5,6 +5,7 @@ class Game {
     this.numTurns = 0;
   }
 
+  // Static function that creates an empty board object.
   static initBoard () {
     var board = {};
     for (var x = 0; x < 7; x++) {
@@ -16,6 +17,7 @@ class Game {
     return board;
   }
 
+  // Updates the board with a valid move. Also checks for win or tie.
   markNextFree (x, board, colour) {
     var nextY = false;
 

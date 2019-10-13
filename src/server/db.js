@@ -8,6 +8,7 @@ const dbName = 'cosc360_dthistle';
 
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
+// Creates a game document in the database.
 exports.createGame = function (req, res) {
   client.connect(function(err) {
     assert.equal(null, err);
@@ -24,6 +25,7 @@ exports.createGame = function (req, res) {
   });
 };
 
+// Updates the game board using the unique game id.
 exports.saveBoard = function (board, gameId) {
   client.connect(function(err) {
     assert.equal(null, err);
@@ -43,6 +45,7 @@ exports.saveBoard = function (board, gameId) {
   })
 };
 
+// Returns the game board for the game id that is passed.
 exports.getBoard = function (gameId) {
   return new Promise(function(resolve, reject) {
     client.connect(function(err) {

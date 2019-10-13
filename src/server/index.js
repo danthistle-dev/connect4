@@ -30,25 +30,32 @@ var currentPlayer = 'red';
 
 io.sockets.on('connection', function(socket){
 
+  // Retrieves current board from the database, emits it to all sockets.
   socket.on('get board', async data => {
     board = await db.getBoard(data);
     io.emit('get board', board);
     gameId = data;  
   });
 
+  // Saves game to database every 20 seconds.
   setInterval(() => {
     db.saveBoard(board, gameId);
   }, 20000);
 
+  // Sends initial messeges array to all sockets.
   io.emit('init', messages);
+
+  // Assigns colours to players.
   if (players && players.length) {
     io.to(socket.id).emit('player colour', players.pop());
   } else {
     io.to(socket.id).emit('player colour', 'Spectator');
   }
+
   connections.push(socket);
   console.log('Connected: %s sockets connected', connections.length);
   
+  // Re-adds colours to playeres array when a socket disconnects.
   socket.on('disconnect', function(data){
     if (players.length === 1) {
       players.push('red');
@@ -59,6 +66,7 @@ io.sockets.on('connection', function(socket){
     console.log('Disconnected: %s sockets connected', connections.length);
   })
   
+  // Makes move on the board and checks for win.
   socket.on('make move', function(data){
     if (data.player === currentPlayer) {
       var newBoard = game.markNextFree(data.col, board, data.player);
@@ -77,10 +85,12 @@ io.sockets.on('connection', function(socket){
     io.emit('current player', currentPlayer);   
   });
 
+  // Sends board to all sockets on request.
   socket.on('get board', function(data) {
     io.emit('get board', board);
   })
 
+  // Sends message array to all sockets when a new message is received.
   socket.on('chat message', function(data){
     messages.push(data);
     io.emit('chat message', messages);

@@ -17,6 +17,7 @@ class App extends React.Component {
     this.setState({ name });
   }
 
+  // API request to the server to create the game
   createGame = () => {
     var xhr = new XMLHttpRequest();
     xhr.addEventListener('load', () => {
